@@ -29,7 +29,7 @@ jobs:
 
       - name: run pipeline
         env:
-          DAGSHUB_SKY: ${{ secrets.DAGSHUB_SKY }}
+          DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
         run: |
           dvc repro
       

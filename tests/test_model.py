@@ -4,15 +4,16 @@ import os
 import pandas as pd
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import pickle
+import dagshub
 
 class TestModelLoading(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         # Set up DagsHub credentials for MLflow tracking
-        dagshub_token = os.getenv("DAGSHUB_SKY")
+        dagshub_token = os.getenv("DAGSHUB_PAT")
         if not dagshub_token:
-            raise EnvironmentError("DAGSHUB_SKY environment variable is not set")
+            raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
 
         os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
         os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
@@ -23,7 +24,6 @@ class TestModelLoading(unittest.TestCase):
 
         # Set up MLflow tracking URI
         mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
-
 
         # Load the new model from MLflow model registry
         cls.new_model_name = "my_model"
